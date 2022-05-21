@@ -3,8 +3,8 @@ version: '3.7'
 services:
   schenkexporter:
     image: serotonie/schenkexporter
-    ports: 
-      - 5000:5000
+    #ports: 
+      #- 5000:5000
     environment:
       - TZ=<Continent>/<Town>
       - MYSQL_USER=<user of kimai DB>
