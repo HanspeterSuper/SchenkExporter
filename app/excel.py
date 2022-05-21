@@ -40,7 +40,6 @@ def makeexcel(user_email, kw, jahr):
     ferienGuthaben = ferienGuthaben[0]
     ferienGuthaben = ferienGuthaben[0]
 
-    #kw_jahr = datetime.datetime.now().isocalendar()
     kw_jahr = [jahr, kw]
 
     if int(kw) - 1 < 0:
