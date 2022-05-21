@@ -37,18 +37,45 @@ def makeexcel(user_email, kw, jahr):
     
     user_id = user[0]
 
-    select_vorwoche = "SELECT value FROM kimai2_user_preferences WHERE user_id='{}' AND name='total_vorwoche'".format(user_id)
-    vorwoche = execute_read_query(connectiondb, select_vorwoche)
-    vorwoche = vorwoche[0]
-    vorwoche = vorwoche[0]
-
     select_ferienGuthaben = "SELECT value FROM kimai2_user_preferences WHERE user_id='{}' AND name='ferien_guthaben'".format(user_id)
     ferienGuthaben = execute_read_query(connectiondb, select_ferienGuthaben)
     ferienGuthaben = ferienGuthaben[0]
     ferienGuthaben = ferienGuthaben[0]
 
-    #kw_jahr = datetime.datetime.now().isocalendar()¨
+    #kw_jahr = datetime.datetime.now().isocalendar()
     kw_jahr = [jahr, kw]
+
+    select_vorwoche_db = "SELECT gesamtTotal FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, str(jahr) + "_" + str(kw-1))
+    vorwoche_db = execute_read_query(connectiondb, select_vorwoche_db)
+    try:
+        vorwoche_db = vorwoche_db[0]
+    except IndexError:
+        vorwoche_db.insert(0, '_')  
+    vorwoche_db = vorwoche_db[0]        
+    if vorwoche_db != '_':
+        vorwoche = vorwoche_db
+    else:
+        select_vorwoche = "SELECT value FROM kimai2_user_preferences WHERE user_id='{}' AND name='total_vorwoche'".format(user_id)
+        vorwoche = execute_read_query(connectiondb, select_vorwoche)
+        vorwoche = vorwoche[0]
+        vorwoche = vorwoche[0]
+    print("Vorwoche:"+ str(vorwoche))
+
+    select_ferienGuthaben_db = "SELECT ferienGuthaben FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, str(jahr) + "_" + str(kw-1))
+    ferienGuthaben_db = execute_read_query(connectiondb, select_ferienGuthaben_db)
+    try:
+        ferienGuthaben_db = ferienGuthaben_db[0]
+    except IndexError:
+        ferienGuthaben_db.insert(0, '_')  
+    ferienGuthaben_db = ferienGuthaben_db[0]        
+    if ferienGuthaben_db != '_':
+        ferienGuthaben = ferienGuthaben_db
+    else:
+        select_ferienGuthaben = "SELECT value FROM kimai2_user_preferences WHERE user_id='{}' AND name='ferien_guthaben'".format(user_id)
+        ferienGuthaben = execute_read_query(connectiondb, select_ferienGuthaben)
+        ferienGuthaben = ferienGuthaben[0]
+        ferienGuthaben = ferienGuthaben[0]
+    print("Ferien Guthaben:" + str(ferienGuthaben))
 
     wb = load_workbook(filename = './VORLAGE_Kimai.xlsx')
     zeitrapport_ranges = wb['Zeitrapport']
@@ -190,7 +217,10 @@ def makeexcel(user_email, kw, jahr):
     zeitrapport_ranges["P16"].value = newFerienGuthaben
 
     update_ferienGuthaben = "UPDATE kimai2_user_preferences SET value = '{}' WHERE user_id='{}' AND name='ferien_guthaben'".format(newFerienGuthaben, user_id)
-    execute_query(connectiondb, update_ferienGuthaben)        
+    execute_query(connectiondb, update_ferienGuthaben)
+    
+    update_gesamtTotal_db = "INSERT INTO schenkExporter SET gesamtTotal = '{}', user='{}', kw_jahr = '{}', ferienGuthaben = '{}' ON DUPLICATE KEY UPDATE gesamtTotal = '{}', user='{}', kw_jahr = '{}', ferienGuthaben = '{}'".format(gesamtTotal, user_id, str(jahr) + "_" + str(kw), newFerienGuthaben, gesamtTotal, user_id, str(jahr) + "_" + str(kw), newFerienGuthaben)
+    execute_query(connectiondb, update_gesamtTotal_db)       
     
     excelFilename = 'tmp/{}_KW{}_{}.xlsx'.format(user[2], kw_jahr[1], kw_jahr[0])
 
