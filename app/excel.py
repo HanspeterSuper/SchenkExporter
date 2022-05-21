@@ -13,8 +13,6 @@ def makeexcel(user_email, kw, jahr):
 
     currentDirectory = currentDirectory + '/tmp'
 
-    print(currentDirectory)
-
     for f in os.listdir(currentDirectory):
         os.remove(os.path.join(currentDirectory, f))
 
@@ -45,7 +43,10 @@ def makeexcel(user_email, kw, jahr):
     #kw_jahr = datetime.datetime.now().isocalendar()
     kw_jahr = [jahr, kw]
 
-    select_vorwoche_db = "SELECT gesamtTotal FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, jahr + "_" + str(int(kw)-1))
+    if int(kw) - 1 < 0:
+        select_vorwoche_db = "SELECT gesamtTotal FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, str(int(jahr)-1) + "_" + str(52))
+    else:
+        select_vorwoche_db = "SELECT gesamtTotal FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, jahr + "_" + str(int(kw)-1))
     vorwoche_db = execute_read_query(connectiondb, select_vorwoche_db)
     try:
         vorwoche_db = vorwoche_db[0]
@@ -60,7 +61,12 @@ def makeexcel(user_email, kw, jahr):
         vorwoche = vorwoche[0]
         vorwoche = vorwoche[0]
 
-    select_ferienGuthaben_db = "SELECT ferienGuthaben FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, jahr + "_" + str(int(kw)-1))
+    if int(kw) - 1 < 0:
+        select_ferienGuthaben_db = "SELECT ferienGuthaben FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, str(int(jahr)-1) + "_" + str(52))
+        newYear = 20
+    else:
+        select_ferienGuthaben_db = "SELECT ferienGuthaben FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, jahr + "_" + str(int(kw)-1))
+        newYear = 0
     ferienGuthaben_db = execute_read_query(connectiondb, select_ferienGuthaben_db)
     try:
         ferienGuthaben_db = ferienGuthaben_db[0]
@@ -68,12 +74,12 @@ def makeexcel(user_email, kw, jahr):
         ferienGuthaben_db.insert(0, '_')  
     ferienGuthaben_db = ferienGuthaben_db[0]        
     if ferienGuthaben_db != '_':
-        ferienGuthaben = ferienGuthaben_db
+        ferienGuthaben = ferienGuthaben_db + newYear
     else:
         select_ferienGuthaben = "SELECT value FROM kimai2_user_preferences WHERE user_id='{}' AND name='ferien_guthaben'".format(user_id)
         ferienGuthaben = execute_read_query(connectiondb, select_ferienGuthaben)
         ferienGuthaben = ferienGuthaben[0]
-        ferienGuthaben = ferienGuthaben[0]
+        ferienGuthaben = ferienGuthaben[0] + newYear
 
     wb = load_workbook(filename = './VORLAGE_Kimai.xlsx')
     zeitrapport_ranges = wb['Zeitrapport']
