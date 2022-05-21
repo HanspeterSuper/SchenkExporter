@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import send_file
 from excel import makeexcel
+import os
 
 app = Flask(__name__,)
 
@@ -11,7 +12,9 @@ def kimaiexport(user_mail, kw, jahr):
 
     fileDownload = fileDownload.replace("tmp/", "")
 
-    return send_file('/home/pi/SchenkExporter/tmp/' + fileDownload, download_name=fileDownload)
+    currentDir = os.getcwd()
+
+    return send_file(currentDir + '/tmp/' + fileDownload, download_name=fileDownload)
 
 
 if __name__ == '__main__':
