@@ -73,12 +73,12 @@ def makeexcel(user_email, kw, jahr):
         ferienGuthaben_db.insert(0, '_')  
     ferienGuthaben_db = ferienGuthaben_db[0]        
     if ferienGuthaben_db != '_':
-        ferienGuthaben = ferienGuthaben_db + newYear
+        ferienGuthaben = str(int(ferienGuthaben_db) + newYear)
     else:
         select_ferienGuthaben = "SELECT value FROM kimai2_user_preferences WHERE user_id='{}' AND name='ferien_guthaben'".format(user_id)
         ferienGuthaben = execute_read_query(connectiondb, select_ferienGuthaben)
         ferienGuthaben = ferienGuthaben[0]
-        ferienGuthaben = ferienGuthaben[0] + newYear
+        ferienGuthaben = str(int(ferienGuthaben[0]) + newYear)
 
     wb = load_workbook(filename = './VORLAGE_Kimai.xlsx')
     zeitrapport_ranges = wb['Zeitrapport']
