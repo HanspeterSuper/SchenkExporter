@@ -5,10 +5,10 @@ import os
 
 app = Flask(__name__,)
 
-@app.route("/<user_mail>:<kw>:<jahr>")
-def kimaiexport(user_mail, kw, jahr):
+@app.route("/<user>:<kw>:<jahr>")
+def kimaiexport(user, kw, jahr):
 
-    fileDownload = makeexcel(user_mail, kw, jahr)
+    fileDownload = makeexcel(user, kw, jahr)
 
     fileDownload = fileDownload.replace("tmp/", "")
 

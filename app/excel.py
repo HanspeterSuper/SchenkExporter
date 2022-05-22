@@ -18,7 +18,7 @@ def makeexcel(user_email, kw, jahr):
 
     load_dotenv()
 
-    email = user_email
+    email = user_email.replace(".", " ")
 
     connectiondb = create_connection(
         os.getenv('MYSQL_HOST'), 
@@ -27,7 +27,7 @@ def makeexcel(user_email, kw, jahr):
         os.getenv('MYSQL_DB')
     )
 
-    select_user = "SELECT id, alias, username FROM kimai2_users WHERE email='{}'".format(email)
+    select_user = "SELECT id, alias, username FROM kimai2_users WHERE alias='{}'".format(email)
     user = execute_read_query(connectiondb, select_user)
     user = user[0]
     
