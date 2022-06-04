@@ -259,7 +259,7 @@
                 googleCalendarApiKey: '{{ google.apiKey }}',
                 {% endif %}
                 header    : {
-                    left  : 'prev,next today{% if canDelete %} deleteButton{% endif %}',
+                    left  : 'prev,next today{% if canDelete %} deleteButton{% endif %}, schenkButton',
                     center: 'title',
                     right : 'month,agendaWeek,agendaDay'
                 },
@@ -278,7 +278,16 @@
                         click: function() {
                             kimai.getPlugin('alert').info('{{ 'calendar.drag_and_drop.delete'|trans }}');
                         }
-                    }
+                    },
+                    schenkButton: {
+                        text: 'Export Schenk',
+                        click: function() {
+                            const kw = $(".fc-week-number").text().replace("KW", "");
+                            const jahr = $(".fc-center").text().substr(-4);
+                            const urlToOpen = "/de_CH/schenkexporter/" + kw + ":" + jahr;
+                            window.open(urlToOpen);
+                        }
+                    }                    
                 },
                 height: 'auto',
                 nowIndicator: true,
