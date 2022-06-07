@@ -93,8 +93,11 @@ def makeexcel(user_email, kw, jahr):
 
     for i in range(7):
         d = datetime.datetime.strptime(str(kw_jahr[0]) + '-W' + str(kw_jahr[1]) + '-' + str(i), "%Y-W%W-%w")
-        DateDay.insert(i, d.strftime('%d.%m.%Y'))
+        DateDay.insert(i, d)
     DateDay.sort()
+
+    for i in range(7):
+        DateDay[i] = DateDay[i].strftime('%d.%m.%Y')
 
     zeitrapport_ranges['M2'].value = datetime.datetime.strptime(DateDay[0],'%d.%m.%Y')
     zeitrapport_ranges['O2'].value = datetime.datetime.strptime(DateDay[6],'%d.%m.%Y')
