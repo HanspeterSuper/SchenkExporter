@@ -1,11 +1,18 @@
 FROM python:3-slim
 
-WORKDIR /usr/src/app
+RUN pip install --upgrade pip
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN adduser -D worker
+USER worker
+
+WORKDIR /home/worker
+
+COPY --chown=worker:worker requirements.txt ./
+RUN pip install --user --no-cache-dir -r requirements.txt
 RUN rm requirements.txt
 
-COPY ./app .
+ENV PATH="/home/worker/.local/bin:${PATH}"
+
+COPY --chown=worker:worker ./app .
 
 CMD [ "python", "-u", "./app.py" ]
