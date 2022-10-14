@@ -13,6 +13,6 @@ RUN rm requirements.txt
 
 ENV PATH="/home/worker/.local/bin:${PATH}"
 
-COPY --chown=worker:worker ./app ./app/
+COPY --chown=worker:worker ./app ./app
 
-CMD [ "python", "-u", "./app.py" ]
+CMD [ "python", "-u", "./app/app.py" ]
