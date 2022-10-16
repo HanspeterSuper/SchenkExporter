@@ -15,4 +15,6 @@ ENV PATH="/home/worker/.local/bin:${PATH}"
 
 COPY --chown=worker:worker ./app ./app
 
+WORKDIR /home/worker/app
+
 CMD [ "python", "-u", "./app/app.py" ]
