@@ -17,4 +17,4 @@ COPY --chown=worker:worker ./app ./app
 
 WORKDIR /home/worker/app
 
-CMD [ "python", "-u", "./app/app.py" ]
+CMD [ "python", "-u", "./app.py" ]
