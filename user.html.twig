@@ -283,7 +283,7 @@
                         text: 'Export Schenk',
                         click: function() {
                             const kw = $(".fc-week-number").text().replace("KW", "");
-                            const jahr = $(".fc-center").text().substr(-4);
+                            const jahr = $(".fc-center").text().match(/202[0-9]/)[0];
                             const urlToOpen = "/de_CH/schenkexporter/" + kw + ":" + jahr;
                             window.open(urlToOpen);
                         }
