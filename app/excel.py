@@ -60,7 +60,7 @@ def makeexcel(user_email, kw, jahr):
         vorwoche = vorwoche[0]
         vorwoche = vorwoche[0]
 
-    if int(kw) - 1 < 0:
+    if int(kw) - 1 <= 0:
         select_ferienGuthaben_db = "SELECT ferienGuthaben FROM schenkExporter WHERE user='{}' AND kw_jahr='{}'".format(user_id, str(int(jahr)-1) + "_" + str(52))
         newYear = 20
     else:
