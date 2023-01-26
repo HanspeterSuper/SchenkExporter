@@ -6,6 +6,7 @@ import os
 from db import create_connection
 from db import execute_read_query
 from db import execute_query
+import sys
 
 def makeexcel(user_email, kw, jahr):
 
@@ -180,13 +181,13 @@ def makeexcel(user_email, kw, jahr):
                         total_id_of_day = total_id_of_day + j[0]
                     else:
                         if (actual_ticket_number == j[2]) or (actual_ticket_number in ticket_allready_done):
-                            print("pass")
+                            print('pass', file=sys.stdout)
                             pass
                         else:
                             actual_ticket_number = j[2]
                             total_time_for_ticket = j[0]
                             ticket_allready_done.append(actual_ticket_number)
-                            print(ticket_allready_done)
+                            print(ticket_allready_done, file=sys.stdout)
                             index_h = 0
                             for h in timesheet_of_the_day:
                                 if index_h == index_j:
