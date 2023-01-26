@@ -180,24 +180,28 @@ def makeexcel(user_email, kw, jahr):
                     elif j[2] == None:
                         total_id_of_day = total_id_of_day + j[0]
                     else:
-                        if (actual_ticket_number == j[2]) or (actual_ticket_number in ticket_allready_done):
-                            print('pass', flush=True)
+                        if actual_ticket_number == j[2]:
                             pass
                         else:
                             actual_ticket_number = j[2]
-                            total_time_for_ticket = j[0]
-                            ticket_allready_done.append(actual_ticket_number)
-                            print(ticket_allready_done, flush=True)
-                            index_h = 0
-                            for h in timesheet_of_the_day:
-                                if index_h == index_j:
-                                    pass
-                                elif actual_ticket_number == h[2]:
-                                    total_time_for_ticket = total_time_for_ticket + h[0]
-                                index_h = index_h + 1
-                            arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+1).value = actual_ticket_number
-                            arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+2).value = total_time_for_ticket/3600
-                            position_of_ticket = position_of_ticket + 1
+                            print(ticket_allready_done, flush=true)
+                            print(actual_ticket_number, flush=true)
+                            if  actual_ticket_number in ticket_allready_done:
+                                print('pass', flush=true)
+                                pass
+                            else:
+                                total_time_for_ticket = j[0]
+                                ticket_allready_done.append(actual_ticket_number)
+                                index_h = 0
+                                for h in timesheet_of_the_day:
+                                    if index_h == index_j:
+                                        pass
+                                    elif actual_ticket_number == h[2]:
+                                        total_time_for_ticket = total_time_for_ticket + h[0]
+                                    index_h = index_h + 1
+                                arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+1).value = actual_ticket_number
+                                arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+2).value = total_time_for_ticket/3600
+                                position_of_ticket = position_of_ticket + 1
                     index_j = index_j + 1
 
                 if total_id_of_day > 0:
