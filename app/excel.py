@@ -180,13 +180,13 @@ def makeexcel(user_email, kw, jahr):
                         total_id_of_day = total_id_of_day + j[0]
                     else:
                         if (actual_ticket_number == j[2]) or (actual_ticket_number in ticket_allready_done):
-                            app.logger.info('pass')
+                            print('pass', flush=True)
                             pass
                         else:
                             actual_ticket_number = j[2]
                             total_time_for_ticket = j[0]
                             ticket_allready_done.append(actual_ticket_number)
-                            app.logger.info(ticket_allready_done)
+                            print(ticket_allready_done, flush=True)
                             index_h = 0
                             for h in timesheet_of_the_day:
                                 if index_h == index_j:
