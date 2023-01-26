@@ -8,6 +8,8 @@ from db import execute_read_query
 from db import execute_query
 
 def makeexcel(user_email, kw, jahr):
+    
+    print(user_email, flush=true)
 
     currentDirectory = os.getcwd()
 
@@ -186,22 +188,22 @@ def makeexcel(user_email, kw, jahr):
                             actual_ticket_number = j[2]
                             print(ticket_allready_done, flush=true)
                             print(actual_ticket_number, flush=true)
-                            if  actual_ticket_number in ticket_allready_done:
-                                print('pass', flush=true)
-                                pass
-                            else:
-                                total_time_for_ticket = j[0]
-                                ticket_allready_done.append(actual_ticket_number)
-                                index_h = 0
-                                for h in timesheet_of_the_day:
-                                    if index_h == index_j:
-                                        pass
-                                    elif actual_ticket_number == h[2]:
-                                        total_time_for_ticket = total_time_for_ticket + h[0]
-                                    index_h = index_h + 1
-                                arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+1).value = actual_ticket_number
-                                arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+2).value = total_time_for_ticket/3600
-                                position_of_ticket = position_of_ticket + 1
+                            #if  actual_ticket_number in ticket_allready_done:
+                            #    print('pass', flush=true)
+                            #    pass
+                            #else:
+                            total_time_for_ticket = j[0]
+                            ticket_allready_done.append(actual_ticket_number)
+                            index_h = 0
+                            for h in timesheet_of_the_day:
+                                if index_h == index_j:
+                                    pass
+                                elif actual_ticket_number == h[2]:
+                                    total_time_for_ticket = total_time_for_ticket + h[0]
+                                index_h = index_h + 1
+                            arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+1).value = actual_ticket_number
+                            arbeitsRapporte_ranges.cell(row=position_of_ticket, column=i*2+2).value = total_time_for_ticket/3600
+                            position_of_ticket = position_of_ticket + 1
                     index_j = index_j + 1
 
                 if total_id_of_day > 0:
