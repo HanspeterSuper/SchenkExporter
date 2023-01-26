@@ -173,6 +173,7 @@ def makeexcel(user_email, kw, jahr):
                 actual_ticket_number = 999999
                 position_of_ticket = 6
                 ticket_allready_done = []
+                ticket_allready_done.clear()
                 for j in timesheet_of_the_day:
                     if j[1] == fahrzeit_projId:
                         pass
