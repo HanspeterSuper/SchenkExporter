@@ -172,17 +172,19 @@ def makeexcel(user_email, kw, jahr):
                 index_j = 0
                 actual_ticket_number = 999999
                 position_of_ticket = 6
+                ticket_allready_done = []
                 for j in timesheet_of_the_day:
                     if j[1] == fahrzeit_projId:
                         pass
                     elif j[2] == None:
                         total_id_of_day = total_id_of_day + j[0]
                     else:
-                        if actual_ticket_number == j[2]:
+                        if (actual_ticket_number == j[2]) or (actual_ticket_number in ticket_allready_done):
                             pass
                         else:
                             actual_ticket_number = j[2]
                             total_time_for_ticket = j[0]
+                            ticket_allready_done.append(actual_ticket_number)
                             index_h = 0
                             for h in timesheet_of_the_day:
                                 if index_h == index_j:
