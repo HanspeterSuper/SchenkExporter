@@ -6,7 +6,7 @@ Flask==2.3.2
 idna==3.3
 itsdangerous>=2.1.0
 Jinja2>=3.0.3
-MarkupSafe==2.1.0
+MarkupSafe>=2.1.0
 mysql-connector-python==8.0.28
 openpyxl==3.0.9
 protobuf==3.19.5
